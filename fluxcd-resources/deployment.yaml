@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux-nodejs-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flux-nodejs-app
+  template:
+    metadata:
+      labels:
+        app: flux-nodejs-app
+    spec:
+      containers:
+        - name: nodejs
+          image: <your-dockerhub-username>/flux-nodejs-app:latest
+          ports:
+            - containerPort: 3000
