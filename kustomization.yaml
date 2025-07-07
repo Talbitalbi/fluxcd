@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - infra/fluxcd-gitrepo.yaml
+  - infra/fluxcd-helmrepository.yaml
+  - infra/fluxcd-kustomization.yaml
+  - infra/fluxcd-setup-helmrelease.yaml

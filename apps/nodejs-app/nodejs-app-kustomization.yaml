@@ -4,10 +4,10 @@ metadata:
   name: nodejs-app
   namespace: flux-system
 spec:
-  interval: 1m
-  path: .
+  interval: 5m
+  path: ./
   prune: true
   sourceRef:
     kind: GitRepository
-    name: nodejs-app
-  targetNamespace: default
+    name: flux-system
+  targetNamespace: nodejs-app

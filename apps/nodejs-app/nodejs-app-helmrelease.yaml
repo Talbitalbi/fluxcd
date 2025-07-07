@@ -15,4 +15,4 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
-    # You can override chart values here if needed
+    # Override chart values here if needed

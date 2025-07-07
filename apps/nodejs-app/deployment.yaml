@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: nodejs
-          image: <your-dockerhub-username>/flux-nodejs-app:latest
+          image: talbitalbi/nodejs-hello-app:v10.0.0
           ports:
             - containerPort: 3000
