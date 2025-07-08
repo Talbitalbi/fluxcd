@@ -35,13 +35,17 @@ The version match contidions are :
 
 #### Install FluxCD on cluster
 
-- Bootstrap step next is for both install AND bootstrap
+- ##
 ```bash
 ## Duplicate step
 helm repo add fluxcd https://fluxcd-community.github.io/helm-charts
 helm repo update
 
 helm upgrade -i flux fluxcd/flux2 \
+  --namespace flux-system \
+  --create-namespace
+
+flux install \
   --namespace flux-system \
   --create-namespace
 ```
