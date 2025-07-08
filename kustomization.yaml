@@ -5,4 +5,4 @@ resources:
   - infra/fluxcd-helmrepository.yaml
   - infra/fluxcd-kustomization.yaml
   - infra/fluxcd-setup-helmrelease.yaml
-  - apps/nodejs-app/nodejs-app-kustomization.yaml
+  - apps/nodejs-app/kustomization.yaml
