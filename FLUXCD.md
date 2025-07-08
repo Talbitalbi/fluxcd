@@ -51,7 +51,21 @@ helm upgrade -i flux fluxcd/flux2 \
 kubectl apply -f infra/fluxcd-gitrepo.yaml
 ```
 
-Now FluxCD on the cluster, is tighed to the GitHub Repo, will sync and deploy upon push to main
+Now FluxCD on the cluster, is tied to the GitHub Repo, will doenload new content, but won't apply it.
+
+Why : There is no actual Kustomization resource on the cluster, which is what decides what will be applied. Solutions:
+  - Have a bootstrap kustomization created when fluxcd is installed
+  - Trigger a bootstrap kustomization, and let FlxCD do the next dpeloyments upon new commits
+
+* bootstrap Kustomization :
+```bash
+flux create kustomization flux-bootstrap \
+  --source=GitRepository/flux-project \
+  --path="./" \
+  --prune=true \
+  --interval=5m \
+  --namespace=flux-system
+```
 
 ### state check
 
