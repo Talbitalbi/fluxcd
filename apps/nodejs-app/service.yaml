@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: flux-nodejs-app
+  namespace: nodejs-app
 spec:
   type: LoadBalancer
   selector:
