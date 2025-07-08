@@ -35,7 +35,9 @@ The version match contidions are :
 
 #### Install FluxCD on cluster
 
+- Bootstrap step next is for both install AND bootstrap
 ```bash
+## Duplicate step
 helm repo add fluxcd https://fluxcd-community.github.io/helm-charts
 helm repo update
 
@@ -44,6 +46,17 @@ helm upgrade -i flux fluxcd/flux2 \
   --create-namespace
 ```
 
+- bootstrap `fluxcd` on cluster and tie to GitHub Repo
+```bash
+#Token required on prompt
+flux bootstrap github \
+  --owner=talbitalbi \
+  --repository=fluxcd \
+  --branch=main \
+  --path=infra \
+  --personal
+
+```
 
 #### Apply Git Repo to cluster
 
