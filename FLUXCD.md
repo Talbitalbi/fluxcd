@@ -45,3 +45,40 @@ helm upgrade -i flux fluxcd/flux2 \
 ```
 
 
+#### Apply Git Repo to cluster
+
+```bash
+kubectl apply -f infra/fluxcd-gitrepo.yaml
+```
+
+Now FluxCD on the cluster, is tighed to the GitHub Repo, will sync and deploy upon push to main
+
+### state check
+
+
+```bash
+kubectl get ns
+
+# Output
+
+NAME              STATUS   AGE
+...
+flux-system       Active   7d17h
+...
+```
+
+```bash
+kubectl logs -n flux-system -l app=source-controller
+```
+
+```bash
+kubectl get gitrepositories -n flux-system
+
+# Output
+NAME          URL                                    AGE     READY   STATUS
+flux-project   https://github.com/{owner}/{repo}   3m49s   True    stored artifact for revision 'main@sha1:e6ff3d65a41cc0e7b0a9f264878154e5a271df9b'
+```
+
+```bash
+kubectl describe gitrepository flux-system -n flux-system
+```
