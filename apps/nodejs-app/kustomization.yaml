@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: flux-project
   targetNamespace: nodejs-app
-resources:
-  - namespace.yaml
-  - deployment.yaml
-  - service.yaml
+  resources:
+    - namespace.yaml
+    - deployment.yaml
+    - service.yaml
