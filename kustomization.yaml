@@ -6,4 +6,4 @@ resources:
   - infra/fluxcd-kustomization.yaml
   - infra/fluxcd-setup-helmrelease.yaml
   - apps/ingress-nginx-kustomization.yaml
-  - apps/nodejs-app-kustomization.yaml
+  - apps/nodejs-app/nodejs-app-kustomization.yaml
