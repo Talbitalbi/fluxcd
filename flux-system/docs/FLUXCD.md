@@ -31,8 +31,6 @@ The version match contidions are :
 |v1.31	            | >= 1.31.0       |
 |v1.32 and later	  | >= 1.32.0       |
 
-
-
 #### Install FluxCD on cluster
 
 - ##
@@ -73,13 +71,13 @@ kubectl apply -f flux-install.yaml
 kubectl apply -f infra/fluxcd-gitrepo.yaml
 ```
 
-Now FluxCD on the cluster, is tied to the GitHub Repo, will doenload new content, but won't apply it.
+Now FluxCD on the cluster, is tied to the GitHub Repo, will download (sync) new committed content, but won't apply it.
 
 Why : There is no actual Kustomization resource on the cluster, which is what decides what will be applied. Solutions:
-  - Have a bootstrap kustomization created when fluxcd is installed
-  - Trigger a bootstrap kustomization, and let FlxCD do the next dpeloyments upon new commits
+  - Recommended : Execute `fluxcd bootstrap`, wich specifies the Repo to watch. `Flux` will create its own `SSH KEY`, push artifact to the repo and keeps syncing it to cluster 
+  - More manual: **1.** Deploy a `GitRepo resource` to `flux-system namespace`, and **2.** Deploy a first kustomization (`Kubectl apply {some kustomization.yaml}`), and so Flux will sync the next deployments upon new commits.
 
-* bootstrap Kustomization :
+* So, Option 1., Recommended: `bootstrap Kustomization` :
 ```bash
 flux create kustomization flux-bootstrap \
   --source=GitRepository/flux-project \
@@ -87,10 +85,12 @@ flux create kustomization flux-bootstrap \
   --prune=true \
   --interval=5m \
   --namespace=flux-system
+
+# Enter GitHub Token Required
+# add --personal flag if applicable due to repo type
 ```
 
 ### state check
-
 
 ```bash
 kubectl get ns
@@ -103,10 +103,15 @@ flux-system       Active   7d17h
 ...
 ```
 
+- Get logs of the flux `source controller` (main place to check if GitHub Commits synced)
 ```bash
 kubectl logs -n flux-system -l app=source-controller
+# Output
+
+{"level":"info","ts":"2025-07-09T13:19:50.582Z","msg":"no changes since last reconcilation: observed revision 'main@sha1:3ef3090ec6cf0c3f21707de1fe877d165f9aad9d'","controller":"gitrepository","controllerGroup":"source.toolkit.fluxcd.io","controllerKind":"GitRepository","GitRepository":{"name":"flux-system","namespace":"flux-system"},"namespace":"flux-system","name":"flux-system","reconcileID":"117ecf36-e964-424f-a9f6-173f23844721"}
 ```
 
+- Check what Repo(s) is known to Flux
 ```bash
 kubectl get gitrepositories -n flux-system
 
