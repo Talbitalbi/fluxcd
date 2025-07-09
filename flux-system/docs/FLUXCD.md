@@ -41,11 +41,7 @@ The version match contidions are :
 helm repo add fluxcd https://fluxcd-community.github.io/helm-charts
 helm repo update
 
-helm upgrade -i flux fluxcd/flux2 \
-  --namespace flux-system \
-  --create-namespace
-
-flux install \
+helm install fluxcd/flux2 \
   --namespace flux-system \
   --create-namespace
 ```
@@ -59,6 +55,15 @@ flux bootstrap github \
   --branch=main \
   --path=infra \
   --personal
+
+# after a minute:
+# This gets flux component deployed : helm-controller, kustomize-controller, notification-controller, source-controller)
+flux install
+
+
+# Or (non recommended fofrce install)
+flux install --export > flux-install.yaml
+kubectl apply -f flux-install.yaml
 
 ```
 
